@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"k8s.io/client-go/tools/clientcmd"
 	"log"
 	"math/rand"
 	"time"
@@ -12,7 +13,6 @@ import (
 	"k8s.io/client-go/informers"
 	"k8s.io/client-go/kubernetes"
 	listersv1 "k8s.io/client-go/listers/core/v1"
-	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/cache"
 )
 
@@ -25,7 +25,8 @@ type Scheduler struct {
 }
 
 func NewScheduler(podQueue chan *v1.Pod, quit chan struct{}) Scheduler {
-	config, err := rest.InClusterConfig()
+	//config, err := rest.InClusterConfig()
+	config, err := clientcmd.BuildConfigFromFlags("", "/root/.kube/config")
 	if err != nil {
 		log.Fatal(err)
 	}
