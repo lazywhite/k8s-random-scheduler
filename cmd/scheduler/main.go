@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"k8s.io/client-go/tools/clientcmd"
 	"log"
 	"math/rand"
 	"time"
@@ -9,7 +10,6 @@ import (
 	"k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
-	"k8s.io/client-go/rest"
 )
 
 const schedulerName = "random-scheduler"
@@ -19,7 +19,9 @@ type Scheduler struct {
 }
 
 func NewScheduler() Scheduler {
-	config, err := rest.InClusterConfig()
+	//config, err := rest.InClusterConfig()
+	config, err := clientcmd.BuildConfigFromFlags("", "/root/.kube/config")
+
 	if err != nil {
 		log.Fatal(err)
 	}
